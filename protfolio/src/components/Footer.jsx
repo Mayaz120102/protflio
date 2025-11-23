@@ -18,23 +18,23 @@ const Footer = () => {
     //       <p className="text-sm text-gray-500">© 2025 Abrar Mayaz</p>
     //     </div>
     //   </div>
-      
+
     // </div>
-     <div className="max-w-7xl mx-auto  pt-8 border-t border-gray-700">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">
-            © 2024 John Doe. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-sm text-gray-500">
-            <button className="hover:text-cyan-400 transition-colors">
-              Terms of Service
-            </button>
-            <button className="hover:text-cyan-400 transition-colors">
-              Privacy Policy
-            </button>
-          </div>
+    <div className="max-w-7xl mx-auto  pt-8 border-t border-gray-700">
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p className="text-sm text-gray-500">
+          © 2024 Abrar Mayaz. All rights reserved.
+        </p>
+        <div className="flex gap-6 text-sm text-gray-500">
+          <button className="hover:text-cyan-400 transition-colors">
+            Terms of Service
+          </button>
+          <button className="hover:text-cyan-400 transition-colors">
+            Privacy Policy
+          </button>
         </div>
       </div>
+    </div>
   );
 };
 
