@@ -43,7 +43,7 @@ const About = ({ scrollToSection }) => {
                 {/* To add your image, replace the span with: */}
                 {/* <img src="/avatar.jpg" alt="Profile" className="w-full h-full object-cover" /> */}
                 <span className="text-3xl text-gray-500 font-semibold">
-                  3D Avatar
+                  Avatar
                 </span>
               </div>
               <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-2xl -z-10 group-hover:bg-cyan-400/30 transition-all"></div>
