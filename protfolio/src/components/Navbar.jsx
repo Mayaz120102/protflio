@@ -21,8 +21,8 @@ const Navbar = ({ scrollToSection, activeSection }) => {
   const handleDownloadCV = () => {
     // Replace with your actual CV file path
     const link = document.createElement("a");
-    link.href = "/Abrar_Mayaz_CV.pdf"; // Put your CV in public folder
-    link.download = "Abrar_Mayaz_CV.pdf";
+    link.href = "/Abrar_Mayaz_s_CV.pdf";
+    link.download = "Abrar_Mayaz_s_CV.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
