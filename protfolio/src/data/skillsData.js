@@ -26,17 +26,17 @@ export const skillsData = [
   {
     id: 4,
     name: "React.js",
-    category: "Frameworks",
+    category: "Library",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   },
-  {
-    id: 5,
-    name: "Node.js",
-    category: "Frameworks",
-    image:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  },
+  // {
+  //   id: 5,
+  //   name: "Node.js",
+  //   category: "Frameworks",
+  //   image:
+  //     "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  // },
   {
     id: 6,
     name: "SQL",
@@ -44,12 +44,12 @@ export const skillsData = [
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
   },
-  //   {
-  //     id: 7,
-  //     name: 'Docker',
-  //     category: 'Tools',
-  //     image: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
-  //   },
+    {
+      id: 7,
+      name: 'Docker',
+      category: 'Tools',
+      image: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+    },
   //   {
   //     id: 8,
   //     name: 'AWS',
@@ -70,6 +70,20 @@ export const skillsData = [
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
   },
+  {
+    id: 11,
+    name: "FastApi",
+    category:"Frameworks",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg",
+  },
+  {
+    id: 12,
+    name: "ExpressJS",
+    category:"Frameworks",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg",
+  }
 ];
 
 export const categories = [
@@ -78,4 +92,5 @@ export const categories = [
   "Frameworks",
   "Tools",
   "Databases",
+  "Library"
 ];
