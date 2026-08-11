@@ -26,7 +26,7 @@ export const skillsData = [
   {
     id: 4,
     name: "React.js",
-    category: "Frameworks",
+    category: "Library",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   },
@@ -44,12 +44,12 @@ export const skillsData = [
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
   },
-  //   {
-  //     id: 7,
-  //     name: 'Docker',
-  //     category: 'Tools',
-  //     image: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
-  //   },
+    {
+      id: 7,
+      name: 'Docker',
+      category: 'Tools',
+      image: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+    },
   //   {
   //     id: 8,
   //     name: 'AWS',
@@ -78,4 +78,5 @@ export const categories = [
   "Frameworks",
   "Tools",
   "Databases",
+  "Library"
 ];
