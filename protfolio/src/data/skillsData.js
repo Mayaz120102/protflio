@@ -73,14 +73,14 @@ export const skillsData = [
   {
     id: 11,
     name: "FastApi",
-    category:"Framworks",
+    category:"Frameworks",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg",
   },
   {
     id: 12,
     name: "ExpressJS",
-    category:"Framworks",
+    category:"Frameworks",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg",
   }
