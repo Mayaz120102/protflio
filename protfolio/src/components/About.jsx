@@ -1,25 +1,26 @@
-import React from 'react';
-import { Code, Brain, Palette } from 'lucide-react';
+import React from "react";
+import { Code, Brain, Palette } from "lucide-react";
+import image from "../assets/abrarmayazpp.png";
 
 const About = ({ scrollToSection }) => {
   const interests = [
     {
       icon: <Code size={32} className="text-blue-400" />,
-      title: 'Web Development',
+      title: "Web Development",
       description:
-        'Crafting beautiful and performant websites with modern frameworks like React and Next.js.',
+        "Crafting beautiful and performant websites with modern frameworks like React and Next.js.",
     },
     {
       icon: <Brain size={32} className="text-blue-400" />,
-      title: 'Machine Learning',
+      title: "Machine Learning",
       description:
-        'Exploring neural networks and data science to uncover insights and build intelligent systems.',
+        "Exploring neural networks and data science to uncover insights and build intelligent systems.",
     },
     {
       icon: <Palette size={32} className="text-blue-400" />,
-      title: 'UI/UX Design',
+      title: "UI/UX Design",
       description:
-        'Passionate about creating intuitive, user-friendly interfaces that are both aesthetically pleasing and accessible.',
+        "Passionate about creating intuitive, user-friendly interfaces that are both aesthetically pleasing and accessible.",
     },
   ];
 
@@ -39,12 +40,14 @@ const About = ({ scrollToSection }) => {
           <div className="flex justify-center md:justify-end">
             <div className="relative group">
               {/* Replace the placeholder with an actual image */}
-              <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center border-8 border-slate-700 shadow-2xl transition-transform group-hover:scale-105 overflow-hidden">
+              <div className="w-64 h-80 sm:w-80 sm:h-96 rounded-3xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center border-8 border-slate-700 shadow-2xl transition-transform group-hover:scale-105 overflow-hidden">
                 {/* To add your image, replace the span with: */}
-                {/* <img src="/avatar.jpg" alt="Profile" className="w-full h-full object-cover" /> */}
-                <span className="text-3xl text-gray-500 font-semibold">
-                  Avatar
-                </span>
+                <img
+                  src={image}
+                  alt="Profile"
+                  className="w-full h-full object-contain"
+                />
+            
               </div>
               <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-2xl -z-10 group-hover:bg-cyan-400/30 transition-all"></div>
             </div>
@@ -62,13 +65,13 @@ const About = ({ scrollToSection }) => {
             </p>
             <div className="flex flex-wrap gap-4">
               <button
-                onClick={() => scrollToSection('projects')}
+                onClick={() => scrollToSection("projects")}
                 className="bg-cyan-400 text-slate-900 px-6 py-3 rounded-lg font-semibold hover:bg-cyan-300 transition-all hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/50"
               >
                 My Projects
               </button>
               <button
-                onClick={() => scrollToSection('contact')}
+                onClick={() => scrollToSection("contact")}
                 className="border-2 border-gray-600 px-6 py-3 rounded-lg font-semibold text-white hover:border-cyan-400 hover:text-cyan-400 transition-all hover:scale-105"
               >
                 Contact Me
@@ -88,7 +91,7 @@ const About = ({ scrollToSection }) => {
               <div
                 key={index}
                 className={`group bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-2xl border border-slate-700 hover:border-cyan-400/50 transition-all hover:scale-105 hover:shadow-xl hover:shadow-cyan-400/20 ${
-                  index === 2 ? 'sm:col-span-2 lg:col-span-1' : ''
+                  index === 2 ? "sm:col-span-2 lg:col-span-1" : ""
                 }`}
               >
                 <div className="flex justify-center mb-6">
