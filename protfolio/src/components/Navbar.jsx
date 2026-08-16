@@ -1,17 +1,41 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import { Menu, X, Download } from "lucide-react";
+import MagneticButton from "./MagneticButton";
+
+const navItems = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
+  { id: "education", label: "Education" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
+];
 
 const Navbar = ({ scrollToSection, activeSection }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 200,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
 
   const handleNavClick = (sectionId) => {
     scrollToSection(sectionId);
@@ -19,7 +43,6 @@ const Navbar = ({ scrollToSection, activeSection }) => {
   };
 
   const handleDownloadCV = () => {
-    // Replace with your actual CV file path
     const link = document.createElement("a");
     link.href = "/Abrar_Mayaz_s_CV.pdf";
     link.download = "Abrar_Mayaz_s_CV.pdf";
@@ -28,97 +51,121 @@ const Navbar = ({ scrollToSection, activeSection }) => {
     document.body.removeChild(link);
   };
 
-  const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "experience", label: "Experience" },
-    { id: "education", label: "Education" },
-    { id: "skills", label: "Skills" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-  ];
-
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-slate-900/95 backdrop-blur-md shadow-lg shadow-black/20"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <button
-            onClick={() => handleNavClick("home")}
-            className="flex items-center gap-2 group"
-          >
-            <div className="w-8 h-8 bg-cyan-400 rounded transform rotate-45 transition-transform group-hover:rotate-90 duration-300"></div>
-            <span className="text-lg md:text-xl font-bold text-white">
-              Abrar Mayaz
-            </span>
-          </button>
+    <>
+      {/* Scroll progress bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[2px] bg-linear-to-r from-mint via-violet to-mint origin-left z-[60]"
+        style={{ scaleX: progress }}
+      />
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
-            {navItems.map((item) => (
-              <button
+      <nav
+        className={`fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 transition-all duration-300 rounded-2xl ${
+          scrolled
+            ? "bg-surface/80 backdrop-blur-md shadow-lg shadow-black/30 border border-white/10"
+            : "bg-transparent border border-transparent"
+        }`}
+      >
+        <div className="px-4 sm:px-6">
+          <div className="flex items-center justify-between h-14 md:h-16">
+            {/* Logo */}
+            <MagneticButton
+              onClick={() => handleNavClick("home")}
+              className="flex items-center gap-2 group"
+              strength={0.25}
+            >
+              <div className="w-8 h-8 bg-mint rounded transform rotate-45 transition-transform group-hover:rotate-90 duration-300" />
+              <span className="font-display text-lg md:text-xl font-bold text-white">
+                Abrar Mayaz
+              </span>
+            </MagneticButton>
+
+            {/* Desktop navigation */}
+            <div className="hidden lg:flex items-center gap-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  className="relative px-4 py-2 text-sm font-medium transition-colors"
+                >
+                  <span
+                    className={
+                      activeSection === item.id
+                        ? "relative z-10 text-ink"
+                        : "relative z-10 text-white hover:text-mint"
+                    }
+                  >
+                    {item.label}
+                  </span>
+                  {activeSection === item.id && (
+                    <motion.div
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-mint rounded-full"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </button>
+              ))}
+              <MagneticButton
+                onClick={handleDownloadCV}
+                strength={0.2}
+                className="ml-2 bg-violet text-ink px-5 py-2 rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-violet/40 transition-shadow flex items-center gap-2"
+              >
+                <Download size={16} />
+                CV
+              </MagneticButton>
+            </div>
+
+            {/* Mobile menu button */}
+            <button
+              className="lg:hidden text-white transition-transform hover:scale-110"
+              onClick={() => setIsMenuOpen((v) => !v)}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Full-screen mobile menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 bg-ink/98 backdrop-blur-md lg:hidden flex flex-col items-center justify-center gap-2"
+          >
+            {navItems.map((item, i) => (
+              <motion.button
                 key={item.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.05 * i, duration: 0.35 }}
                 onClick={() => handleNavClick(item.id)}
-                className={`transition-colors hover:text-cyan-400 ${
-                  activeSection === item.id ? "text-cyan-400" : "text-white"
+                className={`font-display text-3xl font-semibold py-3 transition-colors ${
+                  activeSection === item.id ? "text-mint" : "text-white"
                 }`}
               >
                 {item.label}
-              </button>
+              </motion.button>
             ))}
-            <button
+            <motion.button
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 * navItems.length, duration: 0.35 }}
               onClick={handleDownloadCV}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-500 transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-600/50 flex items-center gap-2"
+              className="mt-6 bg-mint text-ink px-8 py-3 rounded-full font-semibold flex items-center gap-2"
             >
               <Download size={18} />
               Download CV
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden text-white transition-transform hover:scale-110"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`lg:hidden bg-slate-900/98 backdrop-blur-md transition-all duration-300 ease-in-out ${
-          isMenuOpen
-            ? "max-h-screen opacity-100"
-            : "max-h-0 opacity-0 overflow-hidden"
-        }`}
-      >
-        <div className="px-4 pt-2 pb-4 space-y-3">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleNavClick(item.id)}
-              className="block w-full text-left py-2 text-white hover:text-cyan-400 transition-colors"
-            >
-              {item.label}
-            </button>
-          ))}
-          <button
-            onClick={handleDownloadCV}
-            className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-500 transition-all flex items-center justify-center gap-2"
-          >
-            <Download size={18} />
-            Download CV
-          </button>
-        </div>
-      </div>
-    </nav>
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

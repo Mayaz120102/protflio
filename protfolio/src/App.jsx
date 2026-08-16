@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import CustomCursor from './components/CustomCursor';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
@@ -46,9 +47,13 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div className="min-h-screen bg-ink text-white">
       {/* Fixed Background Gradient */}
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 -z-10"></div>
+      <div className="fixed inset-0 bg-gradient-to-br from-ink via-surface to-ink -z-10"></div>
+
+      {/* Grain texture + custom cursor */}
+      <div className="grain-overlay" />
+      <CustomCursor />
 
       {/* Navbar */}
       <Navbar scrollToSection={scrollToSection} activeSection={activeSection} />
