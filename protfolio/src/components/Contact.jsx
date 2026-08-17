@@ -1,14 +1,31 @@
-import  { useState } from 'react';
-import { Mail, Phone, Linkedin, Github, Twitter } from 'lucide-react';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Mail,
+  Phone,
+  Linkedin,
+  Github,
+  Twitter,
+  User,
+  MessageSquare,
+  Send,
+  CheckCircle2,
+} from "lucide-react";
+import SpotlightCard from "./SpotlightCard";
+import MagneticButton from "./MagneticButton";
+
+const fieldClass =
+  "w-full pl-11 pr-4 py-3 bg-ink border border-white/10 rounded-lg text-white placeholder-muted focus:outline-none focus:border-mint focus:ring-2 focus:ring-mint/20 transition-all";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
-  const [status, setStatus] = useState('');
+  // idle | sending | sent
+  const [sendState, setSendState] = useState("idle");
 
   const handleChange = (e) => {
     setFormData({
@@ -19,195 +36,310 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSendState("sending");
 
-    // Method 1: Using mailto (Opens email client)
     const mailtoLink = `mailto:abrarmayaz2002@gmail.com?subject=Message from ${formData.name}&body=${formData.message}%0D%0A%0D%0AFrom: ${formData.name}%0D%0AEmail: ${formData.email}`;
     window.location.href = mailtoLink;
 
-    setStatus('Opening your email client...');
-    
-    // Reset form
     setTimeout(() => {
-      setFormData({ name: '', email: '', message: '' });
-      setStatus('');
-    }, 2000);
+      setSendState("sent");
+    }, 700);
 
-    // Note: For production, use EmailJS, Formspree, or a backend API
+    setTimeout(() => {
+      setFormData({ name: "", email: "", message: "" });
+      setSendState("idle");
+    }, 3000);
   };
 
+  const socials = [
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/abrar-mayaz-53b7b2282/",
+      label: "LinkedIn",
+    },
+    {
+      icon: Github,
+      href: "https://github.com/Mayaz120102",
+      label: "GitHub",
+    },
+    {
+      icon: Twitter,
+      href: "https://twitter.com/yourprofile",
+      label: "Twitter",
+    },
+  ];
+
   return (
-    <section id="contact" className="min-h-screen py-20 px-4">
+    <section id="contact" className="relative py-24 px-4 overflow-hidden">
+      {/* Ambient glow, consistent with Hero/About */}
+      <div className="absolute inset-0 overflow-hidden -z-10">
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-violet/10 rounded-full blur-3xl" />
+      </div>
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-4"
+        >
+          <p className="font-mono text-sm text-mint tracking-wide mb-3">
+            {"// contact"}
+          </p>
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
             Get In Touch
           </h2>
-          <p className="text-gray-400 text-lg">
-            Have a project in mind, or just want to say hello? I'd love to hear
-            from you.
+          <p className="text-muted text-lg max-w-xl mx-auto">
+            Have a project in mind, or just want to say hello? I'd love to
+            hear from you.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start ">
+        {/* Available badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="flex justify-center mb-12"
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-mint/10 border border-mint/30 rounded-full text-mint text-sm font-medium">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-mint" />
+            </span>
+            Available for freelance work
+          </span>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
           {/* Contact Form */}
-          <div className="bg-linear-to-br from-slate-800/50 to-slate-900/50 p-8 rounded-2xl border border-slate-700">
-            <h3 className="text-2xl font-bold text-white mb-6">
-              Send me a message
-            </h3>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+          >
+            <SpotlightCard className="bg-linear-to-br from-surface-2/60 to-surface/60 p-8 rounded-2xl border border-white/10">
+              <h3 className="font-display text-2xl font-bold text-white mb-6">
+                Send me a message
+              </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Input */}
-              <div>
-                <label className="block text-gray-300 mb-2">Your Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter Your Name"
-                  required
-                  className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
-                />
-              </div>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Name Input */}
+                <div>
+                  <label className="block text-mist/80 mb-2 text-sm">
+                    Your Name
+                  </label>
+                  <div className="relative">
+                    <User
+                      className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
+                      size={18}
+                    />
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Enter Your Name"
+                      required
+                      className={fieldClass}
+                    />
+                  </div>
+                </div>
 
-              {/* Email Input */}
-              <div>
-                <label className="block text-gray-300 mb-2">Your Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="xyz@example.com"
-                  required
-                  className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
-                />
-              </div>
+                {/* Email Input */}
+                <div>
+                  <label className="block text-mist/80 mb-2 text-sm">
+                    Your Email
+                  </label>
+                  <div className="relative">
+                    <Mail
+                      className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
+                      size={18}
+                    />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="xyz@example.com"
+                      required
+                      className={fieldClass}
+                    />
+                  </div>
+                </div>
 
-              {/* Message Input */}
-              <div>
-                <label className="block text-gray-300 mb-2">Your Message</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="I'd like to discuss..."
-                  required
-                  rows="5"
-                  className="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors resize-none"
-                ></textarea>
-              </div>
+                {/* Message Input */}
+                <div>
+                  <label className="block text-mist/80 mb-2 text-sm">
+                    Your Message
+                  </label>
+                  <div className="relative">
+                    <MessageSquare
+                      className="absolute left-3.5 top-3.5 text-muted"
+                      size={18}
+                    />
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="I'd like to discuss..."
+                      required
+                      rows="5"
+                      className={`${fieldClass} resize-none`}
+                    ></textarea>
+                  </div>
+                </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500 transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-600/50"
-              >
-                Send Message
-              </button>
-
-              {/* Status Message */}
-              {status && (
-                <p className="text-center text-cyan-400 text-sm">{status}</p>
-              )}
-            </form>
-          </div>
+                {/* Submit Button */}
+                <MagneticButton
+                  type="submit"
+                  disabled={sendState !== "idle"}
+                  strength={0.15}
+                  className="w-full bg-mint text-ink px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-mint/40 transition-shadow flex items-center justify-center gap-2 disabled:opacity-80"
+                >
+                  <AnimatePresence mode="wait" initial={false}>
+                    {sendState === "idle" && (
+                      <motion.span
+                        key="idle"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex items-center gap-2"
+                      >
+                        <Send size={18} />
+                        Send Message
+                      </motion.span>
+                    )}
+                    {sendState === "sending" && (
+                      <motion.span
+                        key="sending"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex items-center gap-2"
+                      >
+                        <motion.span
+                          animate={{ x: [0, 16, 0], opacity: [1, 0, 1] }}
+                          transition={{ duration: 0.7, repeat: Infinity }}
+                        >
+                          <Send size={18} />
+                        </motion.span>
+                        Sending...
+                      </motion.span>
+                    )}
+                    {sendState === "sent" && (
+                      <motion.span
+                        key="sent"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                        className="flex items-center gap-2"
+                      >
+                        <CheckCircle2 size={18} />
+                        Message Sent!
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </MagneticButton>
+              </form>
+            </SpotlightCard>
+          </motion.div>
 
           {/* Contact Information */}
-          <div className="space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-8"
+          >
             {/* Contact Info */}
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">
+            <SpotlightCard
+              spotColor="167, 139, 250"
+              className="bg-linear-to-br from-surface-2/60 to-surface/60 p-8 rounded-2xl border border-white/10"
+            >
+              <h3 className="font-display text-2xl font-bold text-white mb-6">
                 Contact Information
               </h3>
               <div className="space-y-4">
                 {/* Email */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="text-blue-400" size={24} />
+                <motion.div
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex items-start gap-4"
+                >
+                  <div className="w-12 h-12 bg-mint/10 rounded-lg flex items-center justify-center shrink-0">
+                    <Mail className="text-mint" size={22} />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold mb-1">Email</h4>
                     <a
-                      href="mailto:johndoe@email.com"
-                      className="text-gray-400 hover:text-cyan-400 transition-colors"
+                      href="mailto:abrarmayaz2002@gmail.com"
+                      className="text-muted hover:text-mint transition-colors"
                     >
                       abrarmayaz2002@gmail.com
                     </a>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Phone */}
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="text-blue-400" size={24} />
+                <motion.div
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex items-start gap-4"
+                >
+                  <div className="w-12 h-12 bg-mint/10 rounded-lg flex items-center justify-center shrink-0">
+                    <Phone className="text-mint" size={22} />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold mb-1">Phone</h4>
                     <a
-                      href="tel:+12345678901"
-                      className="text-gray-400 hover:text-cyan-400 transition-colors"
+                      href="tel:+8801400384709"
+                      className="text-muted hover:text-mint transition-colors"
                     >
                       01400384709
                     </a>
                   </div>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </SpotlightCard>
 
             {/* Social Links */}
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">
+            <SpotlightCard
+              spotColor="167, 139, 250"
+              className="bg-linear-to-br from-surface-2/60 to-surface/60 p-8 rounded-2xl border border-white/10"
+            >
+              <h3 className="font-display text-2xl font-bold text-white mb-6">
                 Find me on
               </h3>
               <div className="flex gap-4">
-                <a
-                  href="https://www.linkedin.com/in/abrar-mayaz-53b7b2282/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all hover:scale-110"
-                >
-                  <Linkedin className="text-white" size={24} />
-                </a>
-                <a
-                  href="https://github.com/Mayaz120102"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all hover:scale-110"
-                >
-                  <Github className="text-white" size={24} />
-                </a>
-                <a
-                  href="https://twitter.com/yourprofile"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-all hover:scale-110"
-                >
-                  <Twitter className="text-white" size={24} />
-                </a>
+                {socials.map(({ icon: Icon, href, label }) => (
+                  <motion.a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    whileHover={{ y: -4, rotate: -6, scale: 1.08 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    className="w-12 h-12 bg-ink/60 rounded-lg flex items-center justify-center border border-white/10 hover:border-mint/50 hover:bg-mint/10 transition-colors"
+                  >
+                    <Icon className="text-white" size={22} />
+                  </motion.a>
+                ))}
               </div>
-            </div>
-          </div>
+            </SpotlightCard>
+          </motion.div>
         </div>
       </div>
-
-      {/* Footer */}
-      {/* <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-gray-700">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">
-            © 2024 John Doe. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-sm text-gray-500">
-            <button className="hover:text-cyan-400 transition-colors">
-              Terms of Service
-            </button>
-            <button className="hover:text-cyan-400 transition-colors">
-              Privacy Policy
-            </button>
-          </div>
-        </div>
-      </div> */}
     </section>
   );
 };
