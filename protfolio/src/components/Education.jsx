@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { GraduationCap, Award, ExternalLink, Eye } from "lucide-react";
 
@@ -19,7 +19,6 @@ const container = {
 const Education = () => {
   const [hoveredCert, setHoveredCert] = useState(null);
 
-  // Edit this array to add/update your education
   const education = [
     {
       id: 1,
@@ -48,21 +47,31 @@ const Education = () => {
     },
   ];
 
-  // Edit this array to add/update your certifications
   const certifications = [
     {
       id: 1,
+      name: "CS Fundamentals With Phitron: Fall 2025",
+      issuer: "Phitron",
+      date: "19 September 2026",
+      credential: "PHDSA-07746801081",
+      thumbnail:
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
+      driveLink:
+        "https://drive.google.com/file/d/1K-5-DShcUkfwQg2RcMTzA9jeEqiP-P58/view?usp=sharing",
+    },
+    {
+      id: 2,
       name: "Python-Django",
       issuer: "EDGE, Bangladesh Computer Council, ICT division",
       date: "2024",
-      credential: "",
+      credential: "EDGE-DSTS-104-1643-00017",
       thumbnail:
         "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
       driveLink:
         "https://drive.google.com/file/d/1-3F41jvWYs6MtzVe4Z3CG89WPwFcZd9G/view?usp=sharing",
     },
     {
-      id: 2,
+      id: 3,
       name: "Inter University Hackathon 2025",
       issuer: "Programming Hero",
       date: "2025",
@@ -72,10 +81,30 @@ const Education = () => {
         "https://drive.google.com/file/d/1O8aLeOJY8dM1mAfGX-fAAo-S8__ONP5n/view?usp=sharing",
     },
     {
-      id: 3,
-      name: "Robotics",
-      issuer: "IEEE Robotics Society",
+      id: 4,
+      name: "Integrating ML with Robotics",
+      issuer: "IEEE Robotics and Automation Society",
       date: "2024",
+      thumbnail:
+        "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=300&fit=crop",
+      driveLink:
+        "https://drive.google.com/file/d/1WeF73TY_IJuIYH5QVpV-cIuRKIjvEMb9/view?usp=sharing",
+    },
+    {
+      id: 5,
+      name: "Racdox Hackathon",
+      issuer: "Racdox",
+      date: "15 September 2026",
+      thumbnail:
+        "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=300&fit=crop",
+      driveLink:
+        "https://drive.google.com/file/d/1en91VPurnnei49o6zf-UDELtpYkSCWpT/view?usp=sharing",
+    },
+    {
+      id: 6,
+      name: "Product Management",
+      issuer: "Unbolt Academy",
+      date: "2026",
       thumbnail:
         "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=300&fit=crop",
       driveLink:
@@ -88,14 +117,15 @@ const Education = () => {
   };
 
   return (
-    <section id="education" className="relative py-24 px-4 overflow-hidden bg-surface/30">
-      {/* Ambient glow, consistent with Hero/About */}
+    <section
+      id="education"
+      className="relative py-24 px-4 overflow-hidden bg-surface/30"
+    >
       <div className="absolute inset-0 overflow-hidden -z-10">
         <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-violet/10 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -111,7 +141,6 @@ const Education = () => {
           </h2>
         </motion.div>
 
-        {/* Academic Qualifications */}
         <div className="mb-16">
           <motion.h3
             initial={{ opacity: 0, y: 16 }}
@@ -164,7 +193,6 @@ const Education = () => {
           </motion.div>
         </div>
 
-        {/* Certifications */}
         <div>
           <motion.h3
             initial={{ opacity: 0, y: 16 }}
@@ -194,7 +222,6 @@ const Education = () => {
                 onMouseEnter={() => setHoveredCert(cert.id)}
                 onMouseLeave={() => setHoveredCert(null)}
               >
-                {/* Thumbnail */}
                 <div className="relative h-48 overflow-hidden bg-surface-2">
                   <img
                     src={cert.thumbnail}
@@ -223,7 +250,6 @@ const Education = () => {
                   </div>
                 </div>
 
-                {/* Info */}
                 <div className="p-6">
                   <h4 className="font-display text-lg font-bold text-white mb-2 line-clamp-2">
                     {cert.name}
@@ -231,9 +257,7 @@ const Education = () => {
                   <p className="text-mint text-sm font-semibold mb-1">
                     {cert.issuer}
                   </p>
-                  <p className="text-muted text-xs mb-4">
-                    Issued: {cert.date}
-                  </p>
+                  <p className="text-muted text-xs mb-4">Issued: {cert.date}</p>
 
                   <button
                     onClick={() => handleViewCertificate(cert.driveLink)}
